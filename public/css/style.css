@@ -1,5 +1,10 @@
 body {
     font-family: Verdana;
+    font-size: 18px;
+}
+
+*{
+    box-sizing: border-box;
 }
 
 table {
@@ -12,4 +17,19 @@ table {
 th, td {
     border: 2px solid gray;
     padding:.2em;
+}
+
+.button{
+    background-color: rgb(70, 184, 70);
+    color: black;
+    text-decoration: none;
+    padding: .5rem;
+    border-radius: .5rem;
+    box-shadow: .3rem .3rem 0 rgba(0, 0, 0, 0.493);
+    margin: 1rem;
+    transition: box-shadow cubic-bezier(1, 0.01, 0, 0.92) .3s;
+}
+
+.button:hover{
+    box-shadow: .2rem .2rem 0 rgba(0, 0, 0, 0.6);
 }

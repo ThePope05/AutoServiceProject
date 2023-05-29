@@ -28,6 +28,10 @@ class Database
         $this->statement = $this->dbHandler->prepare($sql);
     }
 
+    public function excecuteWithoutReturn(){
+        $this->statement->execute();
+    }
+
     public function resultSet()
     {
         $this->statement->execute();
