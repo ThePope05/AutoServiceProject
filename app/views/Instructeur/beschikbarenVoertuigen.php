@@ -12,6 +12,7 @@
     <?php
         if(isset($_GET['Update']) && $_GET['Update'] == true){
             $this->updateVoertuigen($_GET['CarId'], $data['personData']->Id);
+            header(URLROOT . "/instructeur/overzichtVoertuigen/");
         }
     ?>
     <u><?= $data['title']; ?></u>

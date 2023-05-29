@@ -93,7 +93,6 @@ class Instructeur extends BaseController
         $result = $this->instructeurModel->getVrijeVoertuigen($Id);
         if($result != null){
             $tableRows = "";
-            var_dump(URLROOT);
             foreach($result as $voertuig){
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
@@ -112,7 +111,7 @@ class Instructeur extends BaseController
                                </tr> ";
             };
         }else{
-            $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
+            $tableRows = "<tr><td colspan='7'>Geen vrije voertuigen</td></tr>";
         }
 
         $data = [
