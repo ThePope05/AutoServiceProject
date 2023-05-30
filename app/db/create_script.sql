@@ -220,6 +220,44 @@ CREATE TABLE IF NOT EXISTS VoertuigInstructeur
    ,CONSTRAINT      FK_VoertuigInstructeur_InstructeurId_Instructeur_Id  FOREIGN KEY (InstructeurId) REFERENCES Instructeur(Id)
 ) ENGINE=InnoDB;
 
+DROP TABLE IF EXISTS ExamenPerExaminator;
+DROP TABLE IF EXISTS Examen;
+
+CREATE TABLE IF NOT EXISTS Examen
+(
+    Id                  TINYINT         UNSIGNED        NOT NULL    AUTO_INCREMENT
+   ,StudentId           int         	UNSIGNED        NOT NULL
+   ,Rijschool           varchar(30)                     NOT NULL
+   ,Stad     			varchar(25)                     NOT NULL
+   ,RijbewijsCategorie  varchar(5)                      NOT NULL    
+   ,Datum     			date                    NOT NULL
+   ,Uitslag      		varchar(10)                     NOT NULL
+
+   ,CONSTRAINT      PK_Id   PRIMARY KEY CLUSTERED(Id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS Examinator
+(
+    Id                  TINYINT         UNSIGNED        NOT NULL    AUTO_INCREMENT
+   ,Voornaam            varchar(30)                     NOT NULL
+   ,Tussenvoegsel       varchar(10)                     NOT NULL
+   ,Achternaam     		varchar(30)                     NOT NULL
+   ,Mobiel  			varchar(15)                     NOT NULL
+
+   ,CONSTRAINT      PK_Id   PRIMARY KEY CLUSTERED(Id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS ExamenPerExaminator
+(
+    Id                  TINYINT         UNSIGNED        NOT NULL    AUTO_INCREMENT
+   ,ExamenId            TINYINT         UNSIGNED        NOT NULL
+   ,ExaminatorId        TINYINT         UNSIGNED        NOT NULL
+
+   ,CONSTRAINT      PK_Id   PRIMARY KEY CLUSTERED(Id)
+   ,CONSTRAINT      FK_ExamenId foreign key (ExamenId) references Examen(Id)
+   ,CONSTRAINT      FK_ExaminatorId foreign key (ExaminatorId) references Examinator(Id)
+) ENGINE=InnoDB;
+
 
 -- Step: 09
 -- Goal: Fill table VoertuigInstructeur with data
@@ -247,4 +285,52 @@ VALUES
     ,(3, 4, '2022-08-01', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,(5, 1, '2019-08-30', 1, NULL, SYSDATE(6), SYSDATE(6))
     ,(10, 5, '2020-02-02', 1, NULL, SYSDATE(6), SYSDATE(6));
+    
+    
+insert into Examen
+(
+	Id
+    ,StudentId
+    ,Rijschool
+    ,Stad
+    ,Rijbewijscategorie
+    ,Datum
+    ,Uitslag
+)
+Values 
+	(null, 100234, "VolGasVooruit", "Rotterdam", "B", "2023-04-03", "Geslaagd")
+    ,(null, 123432, "InZijnVierDoorDeBocht", "Sliedrecht", "C", "2023-03-01", "Geslaagd")
+    ,(null, 103234, "LinksomRechtsom", "Dordrecht", "D", "2023-05-15", "Geslaagd")
+    ,(null, 106452, "OpDeVluchtStrook", "Zwijndrecht", "AM", "2023-05-08", "Gezakt")
+    ,(null, 104546, "RechtDoorEnGaan", "Rotterdam", "B", "2023-04-17", "Gezakt")
+    ,(null, 100333, "AltijdGeslaagd", "Dordrecht", "B", "2023-05-12", "Geslaagd")
+    ,(null, 124444, "RijlesVoorJou", "Rotterdam", "B", "2023-04-12", "Geslaagd");
+    
+insert into Examinator(
+	Id
+    ,Voornaam
+    ,Tussenvoegsel
+    ,Achternaam
+    ,Mobiel
+)
+Values
+	(null, "Manuel", "van", "Meekeren", "06-28493823")
+	,(null, "Lissette", "den", "Dongen", "06-24383299")
+	,(null, "Jurswailly", "", "Luciano", "06-48293846")
+	,(null, "Nashwa", "", "Salawi", "06-34291219");
+    
+insert into ExamenPerExaminator(
+	Id
+    ,ExamenId
+    ,ExaminatorId
+)
+Values
+	(null, 1, 3)
+	,(null, 3, 3)
+	,(null, 2, 2)
+	,(null, 4, 1)
+	,(null, 7, 3)
+	,(null, 6, 2)
+	,(null, 5, 4);
+    
    
