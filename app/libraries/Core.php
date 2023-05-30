@@ -14,7 +14,6 @@
             $this->currentController = ucwords($url[0]);
             // echo $this->currentController;
             unset($url[0]);
-            // var_dump($url);
         }
         // We sluiten het klasse-bestand in. 
         require_once '../app/controllers/'. $this->currentController . '.php';
@@ -28,12 +27,12 @@
             if (method_exists($this->currentController, $url[1])) {
                 $this->currentMethod = $url[1];
                 unset($url[1]);
-                // var_dump($url);
             }
         }
 
         
         $this->params = $url ? array_values($url): [];
+        //var_dump($this->params);
 
         call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
     }
