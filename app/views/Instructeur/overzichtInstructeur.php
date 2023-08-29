@@ -9,6 +9,7 @@
     <title>Overzicht Instructeurs</title>
 </head>
 <body>
+    <a href="<?= URLROOT . "/Homepage/" ?>" class="button">Back</a>
     <u><?= $data['title']; ?></u>
     <p>Aantal instructeurs <?= $data['amount'] ?></p>
 

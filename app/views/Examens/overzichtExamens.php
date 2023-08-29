@@ -9,9 +9,9 @@
     <title>Overzicht Examens</title>
 </head>
 <body>
+    <a href="<?= URLROOT . "/Homepage/" ?>" class="button">Back</a>
     <u><?= $data['title']; ?></u>
     <p>Aantal examens <?= $data['amount'] ?></p>
-    <a href="<?= URLROOT . "/Homepage/index" ?>" class="button">Back</a>
 
     <table>
         <thead>
