@@ -68,9 +68,10 @@ class Instructeur extends BaseController
                                 <td>$voertuig->Brandstof</td>
                                 <td>$voertuig->RijbewijsCategorie</td>
                                 <th>
-                                    <a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "' class='button'>
+                                    <a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "'>
                                         <span class='material-symbols-outlined'>
                                             edit
+                                        </span>
                                     </a>
                                 </th>
                                </tr> ";

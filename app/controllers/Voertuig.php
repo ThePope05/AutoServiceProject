@@ -78,6 +78,8 @@ class Voertuig extends BaseController
             'voertuig' => $result
         ];
 
+        var_dump($data);
+
         $this->view('Voertuigen/editVoertuig', $data);
     }
 
