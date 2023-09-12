@@ -26,6 +26,7 @@
             <th>Bouwjaar</th>
             <th>Brandstof</th>
             <th>Rijbewijs</th>
+            <th>Edit</th>
         </thead>
         <tbody>
             <?= $data['tableRows'] ?>
