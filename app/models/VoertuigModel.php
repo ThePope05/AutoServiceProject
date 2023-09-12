@@ -1,6 +1,6 @@
 <?php
 
-class InstructeurModel
+class VoertuigModel
 {
     private $db;
 
@@ -11,14 +11,27 @@ class InstructeurModel
 
     public function getVoertuigen()
     {
-        $sql = "SELECT VOER.Id
-                      ,VOER.Type
-                      ,VOER.Brandstof
-                      ,TYVO.TypeVoertuig
-                FROM  voertuig AS VOER
-                JOIN TypeVoertuig as TYVO
-                ON VOER.TypeVoertuigId = TYVO.Id;
-                ";
+        $sql = "SELECT VOER.Id,
+                       VOER.Type,
+                       VOER.Kenteken,
+                       VOER.Bouwjaar,
+                       VOER.Brandstof,
+                       TYVO.RijbewijsCategorie,
+                       TYVO.TypeVoertuig,
+                       INST.Voornaam,
+                       INST.Tussenvoegsel,
+                       INST.Achternaam,
+                       INST.AantalSterren,
+                       VOERINST.DatumToekenning,
+                       INST.Id AS InstructeurId
+                FROM   Voertuig AS VOER
+                INNER JOIN TypeVoertuig AS TYVO
+                ON VOER.TypeVoertuigId = TYVO.Id
+                LEFT JOIN voertuiginstructeur AS VOERINST
+                ON VOER.Id = VOERINST.VoertuigId
+                LEFT JOIN instructeur AS INST
+                ON VOERINST.InstructeurId = INST.Id
+                ORDER BY INST.Voornaam";
 
         $this->db->query($sql);
         return $this->db->resultSet();

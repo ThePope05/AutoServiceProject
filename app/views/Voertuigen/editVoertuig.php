@@ -11,20 +11,9 @@
 <body>
     <u><?= $data['title']; ?></u>
     <a href="<?= URLROOT . "/Homepage" ?>" class="button">Back</a>
-    <table>
-        <thead>
-            <th>Type</th>
-            <th>Merk</th>
-            <th>Kenteken</th>
-            <th>Bouwjaar</th>
-            <th>Brandstof</th>
-            <th>Rijbewijs</th>
-            <th>Instructeur</th>
-        </thead>
-        <tbody>
-            <?= $data['rows'] ?>
-        </tbody>
-    </table>
+    <form method="post">
+        
+    </form>
 </body>
 </html>
 

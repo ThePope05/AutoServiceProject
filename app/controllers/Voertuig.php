@@ -6,45 +6,79 @@ class Voertuig extends BaseController
 
     public function __construct()
     {
-        $this->voertuigModel = $this->model('InstructeurModel');
+        $this->voertuigModel = $this->model('VoertuigModel');
     }
 
     public function overzichtVoertuigen()
     {
         $result = $this->voertuigModel->getVoertuigen();
 
-        var_dump($result);
-
         $rows = "";
         $amount = 0;
-        foreach ($result as $instructeur) {
-            $date = date_create($instructeur->DatumInDienst);
+        foreach ($result as $voertuig) {
+            $date = date_create($voertuig->DatumToekenning);
             $formattedDate = date_format($date, "d-m-Y");
             $amount++;
-            $rows .= "<tr>
-                        <td>$instructeur->Voornaam</td>
-                        <td>$instructeur->Tussenvoegsel</td>
-                        <td>$instructeur->Achternaam</td>
-                        <td>$instructeur->Mobiel</td>
-                        <td>$formattedDate</td>            
-                        <td>$instructeur->AantalSterren</td> 
-                        <td>
-                            <a href='" . URLROOT . "/instructeur/overzichtvoertuigen/$instructeur->Id'>
+
+            //I need all car data in the tabel
+            //There needs to be a link that goes to the linked instructor
+            //I need only the last name of the instructor
+            //This needs to be right before the link to the instructor
+            //It needs to be html To inject into the $rows variable
+            
+            //I need a variable to determine if $amount is an odd or even number and make a boolean out of it
+
+            $isOdd = $amount % 2 == 1;
+            $backgroundColor = "white";
+
+            if($isOdd){
+                $backgroundColor = "#edd";
+            }
+
+            if($voertuig->InstructeurId == null){
+                $voertuig->Voornaam = "Niet";
+                $voertuig->Tussenvoegsel = "toegewezen";
+                $voertuig->Achternaam = "";
+
+                $linkEl = "";
+            }else{
+                $linkEl = "<a href='" . URLROOT . "/instructeur/overzichtVoertuigen/" . $voertuig->InstructeurId . "'>
                                 <span class='material-symbols-outlined'>
-                                directions_car
+                                    person
                                 </span>
-                            </a>
-                        </td>            
+                            </a>";
+            }
+
+            $rows .= "<tr style='background-Color: " . $backgroundColor . ";'>
+                        <td>$voertuig->TypeVoertuig</td>
+                        <td>$voertuig->Type</td>
+                        <td>$voertuig->Kenteken</td>
+                        <td>$voertuig->Bouwjaar</td>
+                        <td>$voertuig->Brandstof</td>
+                        <td>$voertuig->RijbewijsCategorie</td>
+                        <td>$voertuig->Voornaam $voertuig->Tussenvoegsel $voertuig->Achternaam</td>
+                        <td>$linkEl</td>
                       </tr>";
         }
-        
+
         $data = [
-            'title' => 'Instructeurs in dienst',
+            'title' => 'Alle voertuigen',
             'rows' => $rows,
             'amount' => $amount
         ];
 
-        $this->view('Instructeur/overzichtinstructeur', $data);
+        $this->view('Voertuigen/overzichtVoertuigen', $data);
+    }
+
+    public function editVoertuig($id){
+        $result = $this->voertuigModel->getVoertuig($id);
+
+        $data = [
+            'title' => 'Edit voertuig',
+            'voertuig' => $result
+        ];
+
+        $this->view('Voertuigen/editVoertuig', $data);
     }
 
     // public function overzichtVoertuigen($Id)
