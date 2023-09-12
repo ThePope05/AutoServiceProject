@@ -11,6 +11,6 @@
     <h3><?= $data['title']; ?></h3>
     <a class="button" href="<?= URLROOT; ?>/Instructeur/overzichtinstructeur">Instructeurs in dienst</a> 
     <a class="button" href="<?= URLROOT; ?>/Examens/overzichtexamens">Examinatoren in dienst</a> 
-    <a class="button" href="<?= URLROOT; ?>/Voertuigen/overzichtVoertuigen">Alle voertuigen</a> 
+    <a class="button" href="<?= URLROOT; ?>/Voertuig/overzichtVoertuigen">Alle voertuigen</a> 
 </body>
 </html>

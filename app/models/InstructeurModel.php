@@ -27,7 +27,8 @@ class InstructeurModel
 
     public function getToegewezenVoertuigen($Id)
     {
-        $sql = "SELECT TYVO.TypeVoertuig,
+        $sql = "SELECT VOER.Id,
+                       TYVO.TypeVoertuig,
                        VOER.Type,
                        VOER.Kenteken,
                        VOER.Bouwjaar,
