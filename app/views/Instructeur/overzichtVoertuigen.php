@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,9 +9,10 @@
     <link rel="stylesheet" href="<?= URLROOT; ?>/css/style.css">
     <title>Overzicht Instructeurs</title>
 </head>
+
 <body>
     <u><?= $data['title']; ?></u>
-    <a href="<?= URLROOT . "/instructeur/overzichtInstructeur" ?>" class="button">Back</a>
+    <a href="<?= URLROOT . "/instructeur/overzichtInstructeur" ?>" class="button back">Back</a>
     <p>
         Naam: <?= $data['personData']->Voornaam . " " . $data['personData']->Tussenvoegsel . " " . $data['personData']->Achternaam ?> <br>
         Datum in dienst: <?= $data['personData']->DatumInDienst; ?> <br>
@@ -33,5 +35,5 @@
         </tbody>
     </table>
 </body>
-</html>
 
+</html>

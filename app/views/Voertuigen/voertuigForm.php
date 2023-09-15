@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,12 +9,15 @@
     <link rel="stylesheet" href="<?= URLROOT; ?>/css/style.css">
     <title>Overzicht voertuigen</title>
 </head>
+
 <body>
-    <u><?= $data['title']; ?></u>
-    <a href="<?= URLROOT . "/Homepage" ?>" class="button">Back</a>
+    <h2><?= $data['title']; ?></h2>
+    <a href="<?= URLROOT . "/Homepage" ?>" class="button back">Back</a>
     <form method="post">
-        
+        <?php if ($data['voertuig']) {
+            echo $data['voertuig'][0]->Type;
+        } ?>
     </form>
 </body>
-</html>
 
+</html>
