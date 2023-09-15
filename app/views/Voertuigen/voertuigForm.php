@@ -7,16 +7,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,700,1,200" />
     <link rel="stylesheet" href="<?= URLROOT; ?>/css/style.css">
-    <title>Overzicht voertuigen</title>
+    <title><?= $data['title'] ?></title>
 </head>
 
 <body>
     <h2><?= $data['title']; ?></h2>
     <a href="<?= URLROOT . "/Homepage" ?>" class="button back">Back</a>
     <form method="post">
-        <?php if ($data['voertuig']) {
-            echo $data['voertuig'][0]->Type;
-        } ?>
+        <?php
+        $voertuigIsset = false;
+        if ($data['voertuig'] != null) {
+            $voertuigIsset = true;
+        } else {
+            $voertuigIsset = false;
+        }
+        ?>
+        <div>
+            <label for="instr">Instructeur</label>
+            <select name="instr">
+                <?php
+                if (!$voertuigIsset) {
+                    echo '<option value="">Kies een instructeur</option>';
+                }
+                foreach ($data['subData']['instructors'] as $instructor) {
+                    if ($voertuigIsset) {
+                        if ($instructor->Id == $data['voertuig'][0]->InstructeurId) {
+                            echo "<option value='$instructor->Id' selected>$instructor->Naam</option>";
+                        } else {
+                            echo "<option value='$instructor->Id'>$instructor->Naam</option>";
+                        }
+                    } else {
+                        echo "<option value='$instructor->Id'>$instructor->Naam</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+
+        <div>
+            <label for="typevoer">Type voertuig</label>
+            <select name="typevoer">
+                <?php
+                if ($data['voertuig'] == null) {
+                    echo '<option value="">Kies een Voertuig type</option>';
+                }
+                foreach ($data['subData']['types'] as $type) {
+                    if ($voertuigIsset) {
+                        if ($type->TypeVoertuig == $data['voertuig'][0]->TypeVoertuig) {
+                            echo "<option value='$type->TypeVoertuig' selected>$type->TypeVoertuig</option>";
+                        } else {
+                            echo "<option value='$type->TypeVoertuig'>$type->TypeVoertuig</option>";
+                        }
+                    } else {
+                        echo "<option value='$type->TypeVoertuig'>$type->TypeVoertuig</option>";
+                    }
+                }
+                ?>
+            </select>
+        </div>
+
+        <div>
+            <label for="type">Type</label>
+            <input type="text" name="type" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Type . "'") : "" ?>>
+        </div>
+
+        <div>
+            <label for="bouwjaar">Bouwjaar</label>
+            <input type="date" name="bouwjaar" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Bouwjaar . "'") : "" ?>>
+        </div>
+
+        <div>
+            <label for="">Brandstof</label>
+            <input type="radio" name="Brandstof" value="Diesel" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Diesel") ? ("checked") : "" ?>>
+            <label for="Diesel">Diesel</label>
+            <input type="radio" name="Brandstof" value="Benzine" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Benzine") ? ("checked") : "" ?>>
+            <label for="Benzine">Benzine</label>
+            <input type="radio" name="Brandstof" value="Elektrisch" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Elektrisch") ? ("checked") : "" ?>>
+            <label for="Elektrisch">Elektrisch</label>
+        </div>
+
+        <div>
+            <label for="kenteken">Kenteken</label>
+            <input type="text" name="kenteken" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Kenteken . "'") : "" ?>>
+        </div>
+
+        <input type="submit" value="<?= $data['buttonText'] ?>">
     </form>
 </body>
 

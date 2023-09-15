@@ -37,7 +37,7 @@ class Instructeur extends BaseController
                         </td>            
                       </tr>";
         }
-        
+
         $data = [
             'title' => 'Instructeurs in dienst',
             'rows' => $rows,
@@ -50,16 +50,16 @@ class Instructeur extends BaseController
     public function overzichtVoertuigen($Id)
     {
         $result = $this->instructeurModel->getInstructeurs();
-        foreach($result as $person){
-            if($person->Id == $Id){
+        foreach ($result as $person) {
+            if ($person->Id == $Id) {
                 $instructeur = $person;
             }
         }
 
         $result = $this->instructeurModel->getToegewezenVoertuigen($Id);
-        if($result != null){
+        if ($result != null) {
             $tableRows = "";
-            foreach($result as $voertuig){
+            foreach ($result as $voertuig) {
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
                                 <td>$voertuig->Type</td>
@@ -68,7 +68,7 @@ class Instructeur extends BaseController
                                 <td>$voertuig->Brandstof</td>
                                 <td>$voertuig->RijbewijsCategorie</td>
                                 <th>
-                                    <a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "'>
+                                    <a href='/Voertuig/editVoertuig/" . $voertuig->Id . "/" . $Id . "'>
                                         <span class='material-symbols-outlined'>
                                             edit
                                         </span>
@@ -76,7 +76,7 @@ class Instructeur extends BaseController
                                 </th>
                                </tr> ";
             };
-        }else{
+        } else {
             $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
         }
 
@@ -89,18 +89,19 @@ class Instructeur extends BaseController
         $this->view('Instructeur/overzichtVoertuigen', $data);
     }
 
-    public function beschikbarenVoertuigen($Id){
+    public function beschikbarenVoertuigen($Id)
+    {
         $result = $this->instructeurModel->getInstructeurs();
-        foreach($result as $person){
-            if($person->Id == $Id){
+        foreach ($result as $person) {
+            if ($person->Id == $Id) {
                 $instructeur = $person;
             }
         }
 
         $result = $this->instructeurModel->getVrijeVoertuigen($Id);
-        if($result != null){
+        if ($result != null) {
             $tableRows = "";
-            foreach($result as $voertuig){
+            foreach ($result as $voertuig) {
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
                                 <td>$voertuig->Type</td>
@@ -117,7 +118,7 @@ class Instructeur extends BaseController
                                 </td>
                                </tr> ";
             };
-        }else{
+        } else {
             $tableRows = "<tr><td colspan='7'>Geen vrije voertuigen</td></tr>";
         }
 
@@ -130,7 +131,8 @@ class Instructeur extends BaseController
         $this->view('Instructeur/beschikbarenVoertuigen', $data);
     }
 
-    public function updateVoertuigen($CarId, $PersonId){
+    public function updateVoertuigen($CarId, $PersonId)
+    {
         $this->instructeurModel->addCarToInstructeur($CarId, $PersonId);
     }
 }
