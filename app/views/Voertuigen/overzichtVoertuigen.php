@@ -22,6 +22,7 @@
             <th>Brandstof</th>
             <th>Rijbewijs</th>
             <th>Instructeur</th>
+            <th>Edit</th>
         </thead>
         <tbody>
             <?= $data['rows'] ?>

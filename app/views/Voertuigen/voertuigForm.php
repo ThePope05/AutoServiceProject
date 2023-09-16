@@ -26,12 +26,12 @@
             <label for="instr">Instructeur</label>
             <select name="instr">
                 <?php
-                if (!$voertuigIsset) {
+                if ($data['voertuig']->InstructeurId == null) {
                     echo '<option value="">Kies een instructeur</option>';
                 }
                 foreach ($data['subData']['instructors'] as $instructor) {
                     if ($voertuigIsset) {
-                        if ($instructor->Id == $data['voertuig'][0]->InstructeurId) {
+                        if ($instructor->Id == $data['voertuig']->InstructeurId) {
                             echo "<option value='$instructor->Id' selected>$instructor->Naam</option>";
                         } else {
                             echo "<option value='$instructor->Id'>$instructor->Naam</option>";
@@ -48,12 +48,12 @@
             <label for="typevoer">Type voertuig</label>
             <select name="typevoer">
                 <?php
-                if ($data['voertuig'] == null) {
+                if (!$voertuigIsset) {
                     echo '<option value="">Kies een Voertuig type</option>';
                 }
                 foreach ($data['subData']['types'] as $type) {
                     if ($voertuigIsset) {
-                        if ($type->TypeVoertuig == $data['voertuig'][0]->TypeVoertuig) {
+                        if ($type->TypeVoertuig == $data['voertuig']->TypeVoertuig) {
                             echo "<option value='$type->TypeVoertuig' selected>$type->TypeVoertuig</option>";
                         } else {
                             echo "<option value='$type->TypeVoertuig'>$type->TypeVoertuig</option>";
@@ -68,27 +68,27 @@
 
         <div>
             <label for="type">Type</label>
-            <input type="text" name="type" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Type . "'") : "" ?>>
+            <input type="text" name="type" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig']->Type . "'") : "" ?>>
         </div>
 
         <div>
             <label for="bouwjaar">Bouwjaar</label>
-            <input type="date" name="bouwjaar" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Bouwjaar . "'") : "" ?>>
+            <input type="date" name="bouwjaar" readonly <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig']->Bouwjaar . "'") : "" ?>>
         </div>
 
         <div>
             <label for="">Brandstof</label>
-            <input type="radio" name="Brandstof" value="Diesel" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Diesel") ? ("checked") : "" ?>>
+            <input type="radio" name="Brandstof" value="Diesel" <?php echo ($voertuigIsset && $data['voertuig']->Brandstof == "Diesel") ? ("checked") : "" ?>>
             <label for="Diesel">Diesel</label>
-            <input type="radio" name="Brandstof" value="Benzine" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Benzine") ? ("checked") : "" ?>>
+            <input type="radio" name="Brandstof" value="Benzine" <?php echo ($voertuigIsset && $data['voertuig']->Brandstof == "Benzine") ? ("checked") : "" ?>>
             <label for="Benzine">Benzine</label>
-            <input type="radio" name="Brandstof" value="Elektrisch" <?php echo ($voertuigIsset && $data['voertuig'][0]->Brandstof == "Elektrisch") ? ("checked") : "" ?>>
+            <input type="radio" name="Brandstof" value="Elektrisch" <?php echo ($voertuigIsset && $data['voertuig']->Brandstof == "Elektrisch") ? ("checked") : "" ?>>
             <label for="Elektrisch">Elektrisch</label>
         </div>
 
         <div>
             <label for="kenteken">Kenteken</label>
-            <input type="text" name="kenteken" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig'][0]->Kenteken . "'") : "" ?>>
+            <input type="text" name="kenteken" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig']->Kenteken . "'") : "" ?>>
         </div>
 
         <input type="submit" value="<?= $data['buttonText'] ?>">

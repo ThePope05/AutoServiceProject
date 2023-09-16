@@ -37,7 +37,7 @@ class VoertuigModel
         return $this->db->resultSet();
     }
 
-    public function getVoertuig($carId, $instId)
+    public function getVoertuigInstructor($carId, $instId)
     {
         $sql = "SELECT VOER.Id,
                        VOER.Type,
@@ -58,6 +58,23 @@ class VoertuigModel
                 LEFT JOIN instructeur AS INST
                 ON VOERINST.InstructeurId = INST.Id
                 WHERE VOER.Id = $carId AND VOERINST.InstructeurId = $instId;";
+
+        $this->db->query($sql);
+        return $this->db->resultSet();
+    }
+
+    public function getVoertuig($carId)
+    {
+        $sql = "SELECT VOER.Id,
+                       VOER.Type,
+                       VOER.Kenteken,
+                       VOER.Bouwjaar,
+                       VOER.Brandstof,
+                       TYVO.RijbewijsCategorie,
+                       TYVO.TypeVoertuig
+                FROM   Voertuig AS VOER
+                INNER JOIN TypeVoertuig AS TYVO
+                ON VOER.TypeVoertuigId = TYVO.Id;";
 
         $this->db->query($sql);
         return $this->db->resultSet();

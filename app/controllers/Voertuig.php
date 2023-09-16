@@ -20,14 +20,6 @@ class Voertuig extends BaseController
             $formattedDate = date_format($date, "d-m-Y");
             $amount++;
 
-            //I need all car data in the tabel
-            //There needs to be a link that goes to the linked instructor
-            //I need only the last name of the instructor
-            //This needs to be right before the link to the instructor
-            //It needs to be html To inject into the $rows variable
-
-            //I need a variable to determine if $amount is an odd or even number and make a boolean out of it
-
             $isOdd = $amount % 2 == 1;
             $backgroundColor = "white";
 
@@ -49,6 +41,20 @@ class Voertuig extends BaseController
                             </a>";
             }
 
+            $editEl = "<a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "/";
+
+            if ($voertuig->InstructeurId != null) {
+                $editEl .= $voertuig->InstructeurId;
+            } else {
+                $editEl .= "null";
+            }
+
+            $editEl .= "'>
+                            <span class='material-symbols-outlined'>
+                                edit
+                            </span>
+                        </a>";
+
             $rows .= "<tr style='background-Color: " . $backgroundColor . ";'>
                         <td>$voertuig->TypeVoertuig</td>
                         <td>$voertuig->Type</td>
@@ -58,6 +64,7 @@ class Voertuig extends BaseController
                         <td>$voertuig->RijbewijsCategorie</td>
                         <td>$voertuig->Voornaam $voertuig->Tussenvoegsel $voertuig->Achternaam</td>
                         <td>$linkEl</td>
+                        <td>$editEl</td>
                       </tr>";
         }
 
@@ -70,13 +77,17 @@ class Voertuig extends BaseController
         $this->view('Voertuigen/overzichtVoertuigen', $data);
     }
 
-    public function editVoertuig($carId, $instId)
+    public function editVoertuig($carId, $instId = null)
     {
-        $result = $this->voertuigModel->getVoertuig($carId, $instId);
+        if ($instId == "null") {
+            $result = $this->voertuigModel->getVoertuig($carId);
+        } else {
+            $result = $this->voertuigModel->getVoertuigInstructor($carId, $instId);
+        }
         $data = [
             'title' => 'Verander voertuig',
             'buttonText' => 'Verander voertuig',
-            'voertuig' => $result,
+            'voertuig' => (is_array($result)) ? $result[0] : $result,
             'subData' => $this->voertuigModel->getTypes(),
         ];
 

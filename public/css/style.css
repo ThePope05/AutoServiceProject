@@ -35,6 +35,32 @@ th, td {
     transition: box-shadow cubic-bezier(1, 0.01, 0, 0.92) .3s;
 }
 
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+form > div{
+    margin: 1rem;
+    padding: 1rem;
+    width: 100%;
+
+    background-color: #ebe7e1;
+    border-radius: 1rem;
+    border: none;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.back{
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+}
+
 .button:hover{
     box-shadow: .2rem .2rem 0 rgba(0, 0, 0, 0.6);
 }
