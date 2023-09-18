@@ -17,28 +17,31 @@
         header(URLROOT . "/instructeur/overzichtVoertuigen/");
     }
     ?>
-    <u><?= $data['title']; ?></u>
     <a href="<?= URLROOT . "/instructeur/overzichtVoertuigen/" . $data['personData']->Id ?>" class="button back">Back</a>
-    <p>
-        Naam: <?= $data['personData']->Voornaam . " " . $data['personData']->Tussenvoegsel . " " . $data['personData']->Achternaam ?> <br>
-        Datum in dienst: <?= $data['personData']->DatumInDienst; ?> <br>
-        Aantal sterren: <?= $data['personData']->AantalSterren ?>
-    </p>
+    <div>
 
-    <table>
-        <thead>
-            <th>Voertuig Type</th>
-            <th>Type</th>
-            <th>Kenteken</th>
-            <th>Bouwjaar</th>
-            <th>Brandstof</th>
-            <th>Rijbewijs</th>
-            <th>Toevoegen</th>
-        </thead>
-        <tbody>
-            <?= $data['tableRows'] ?>
-        </tbody>
-    </table>
+        <u><?= $data['title']; ?></u>
+        <p>
+            Naam: <?= $data['personData']->Voornaam . " " . $data['personData']->Tussenvoegsel . " " . $data['personData']->Achternaam ?> <br>
+            Datum in dienst: <?= $data['personData']->DatumInDienst; ?> <br>
+            Aantal sterren: <?= $data['personData']->AantalSterren ?>
+        </p>
+
+        <table>
+            <thead>
+                <th>Voertuig Type</th>
+                <th>Type</th>
+                <th>Kenteken</th>
+                <th>Bouwjaar</th>
+                <th>Brandstof</th>
+                <th>Rijbewijs</th>
+                <th>Toevoegen</th>
+            </thead>
+            <tbody>
+                <?= $data['tableRows'] ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

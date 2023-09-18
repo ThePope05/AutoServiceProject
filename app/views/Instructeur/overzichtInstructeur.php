@@ -12,23 +12,25 @@
 
 <body>
     <a href="<?= URLROOT . "/Homepage/" ?>" class="button back">Back</a>
-    <u><?= $data['title']; ?></u>
-    <p>Aantal instructeurs <?= $data['amount'] ?></p>
+    <div>
+        <u><?= $data['title']; ?></u>
+        <p>Aantal instructeurs <?= $data['amount'] ?></p>
 
-    <table>
-        <thead>
-            <th>Voornaam</th>
-            <th>Tussenvoegsel</th>
-            <th>Achternaam</th>
-            <th>Mobiel</th>
-            <th>Datum in dienst</th>
-            <th>Aantal sterren</th>
-            <th>Voertuigen</th>
-        </thead>
-        <tbody>
-            <?= $data['rows']; ?>
-        </tbody>
-    </table>
+        <table>
+            <thead>
+                <th>Voornaam</th>
+                <th>Tussenvoegsel</th>
+                <th>Achternaam</th>
+                <th>Mobiel</th>
+                <th>Datum in dienst</th>
+                <th>Aantal sterren</th>
+                <th>Voertuigen</th>
+            </thead>
+            <tbody>
+                <?= $data['rows']; ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

@@ -10,11 +10,13 @@
 </head>
 
 <body>
-    <h2><?= $data['title']; ?></h2>
-    <a class="button" href="<?= URLROOT; ?>/Instructeur/overzichtinstructeur">Instructeurs in dienst</a>
-    <a class="button" href="<?= URLROOT; ?>/Examens/overzichtexamens">Examinatoren in dienst</a>
-    <a class="button" href="<?= URLROOT; ?>/Voertuig/overzichtVoertuigen">Alle voertuigen</a>
-    <a class="button" href="<?= URLROOT; ?>/Voertuig/createVoertuig">Nieuw voertuig</a>
+    <div>
+        <h2><?= $data['title']; ?></h2>
+        <a class="button" href="<?= URLROOT; ?>/Instructeur/overzichtinstructeur">Instructeurs in dienst</a>
+        <a class="button" href="<?= URLROOT; ?>/Examens/overzichtexamens">Examinatoren in dienst</a>
+        <a class="button" href="<?= URLROOT; ?>/Voertuig/overzichtVoertuigen">Alle voertuigen</a>
+        <a class="button" href="<?= URLROOT; ?>/Voertuig/createVoertuigPage">Nieuw voertuig</a>
+    </div>
 </body>
 
 </html>

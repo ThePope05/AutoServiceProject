@@ -11,25 +11,13 @@
 </head>
 
 <body>
+    <a href="<?= URLROOT . "/Homepage" ?>" class="button back">Back</a>
 
-    <a href="<?= URLROOT . "/Homepage/" ?>" class="button back">Back</a>
-    <div>
+    <div class="failed">
         <u><?= $data['title']; ?></u>
-        <p>Aantal examens <?= $data['amount'] ?></p>
-
-        <table>
-            <thead>
-                <th>Naam examinator</th>
-                <th>Datum examen</th>
-                <th>Rijbewijs categorie</th>
-                <th>Rijschool</th>
-                <th>Stad</th>
-                <th>Uitslag</th>
-            </thead>
-            <tbody>
-                <?= $data['rows']; ?>
-            </tbody>
-        </table>
+        <a href="<?= $data['link'] ?>" class="button">
+            <h1><?= $data['message'] ?></h1>
+        </a>
     </div>
 </body>
 
