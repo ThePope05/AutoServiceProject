@@ -13,7 +13,7 @@
 <body>
     <h2><?= $data['title']; ?></h2>
     <a href="<?= URLROOT . "/Homepage" ?>" class="button back">Back</a>
-    <form method="post">
+    <form method="post" action="<?= $data['formAction'] ?>">
         <?php
         $voertuigIsset = false;
         if ($data['voertuig'] != null) {
@@ -73,7 +73,7 @@
 
         <div>
             <label for="bouwjaar">Bouwjaar</label>
-            <input type="date" name="bouwjaar" readonly <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig']->Bouwjaar . "'") : "" ?>>
+            <input type="date" name="bouwjaar" <?php echo ($voertuigIsset) ? ("value='" . $data['voertuig']->Bouwjaar . "' readonly") : "" ?>>
         </div>
 
         <div>
