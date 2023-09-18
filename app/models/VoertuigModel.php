@@ -107,4 +107,51 @@ class VoertuigModel
 
         return $data;
     }
+
+    public function createVoertuig($voertuig)
+    {
+        $subStatement = 'SELECT Id FROM typeVoertuig WHERE TypeVoertuig = "' . $voertuig['typevoer'] . '"';
+
+        $sql = 'INSERT INTO Voertuig (Type, Kenteken, Bouwjaar, Brandstof, TypeVoertuigId, DatumAangemaakt, DatumGewijzigd)
+                VALUES ( "' . $voertuig['type'] . '", "' .
+            $voertuig['kenteken'] . '", "' .
+            $voertuig['bouwjaar'] . '", "' .
+            $voertuig['brandstof'] . '", (' .
+            $subStatement . '), NOW(), NOW());';
+
+        $statement = $this->db->query($sql);
+
+        $this->db->executeWithoutReturn();
+
+        $subStatement = 'SELECT Id FROM Voertuig WHERE Kenteken = "' . $voertuig['kenteken'] . '"';
+
+        $sql = 'INSERT INTO voertuiginstructeur (VoertuigId, InstructeurId, DatumToekenning, DatumAangemaakt, DatumGewijzigd)
+                VALUES ( (' . $subStatement . '), "' .
+            $voertuig['instructeurId'] . '", NOW(), NOW(), NOW());';
+
+        $this->db->query($sql);
+
+        $this->db->executeWithoutReturn();
+    }
+
+    public function updateVoertuig($voertuig)
+    {
+        $subStatement = 'SELECT Id FROM typeVoertuig WHERE TypeVoertuig = "' . $voertuig['typevoer'] . '"';
+
+        $sql = 'UPDATE Voertuig
+                SET Type = "' . $voertuig['type'] . '", Kenteken = "' . $voertuig['kenteken'] . '", Bouwjaar = "' . $voertuig['bouwjaar'] . '", Brandstof = "' . $voertuig['brandstof'] . '", TypeVoertuigId = (' . $subStatement . '), DatumGewijzigd = NOW()
+                WHERE Id = ' . $voertuig['Id'] . ';';
+
+        $this->db->query($sql);
+
+        $this->db->executeWithoutReturn();
+
+        $sql = 'UPDATE voertuiginstructeur
+                SET InstructeurId = "' . $voertuig['instructeurId'] . '", DatumGewijzigd = NOW()
+                WHERE VoertuigId = ' . $voertuig['Id'] . ' AND InstructeurId = "' . $voertuig['oldInstrId'] . '";';
+
+        $this->db->query($sql);
+
+        $this->db->executeWithoutReturn();
+    }
 }

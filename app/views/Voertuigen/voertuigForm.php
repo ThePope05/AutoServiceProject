@@ -22,6 +22,10 @@
             $voertuigIsset = false;
         }
         ?>
+
+        <input type="hidden" name="voertuigId" value="<?= (isset($data['voertuig']->Id)) ? $data['voertuig']->Id : "" ?>">
+        <input type="hidden" name="oldInstrId" value="<?= (isset($data['oldInstrId'])) ? $data['oldInstrId'] : "" ?>">
+
         <div>
             <label for="instr">Instructeur</label>
             <select name="instr">

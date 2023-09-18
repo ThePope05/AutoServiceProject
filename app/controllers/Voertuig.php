@@ -41,7 +41,7 @@ class Voertuig extends BaseController
                             </a>";
             }
 
-            $editEl = "<a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "/";
+            $editEl = "<a href='" . URLROOT . "/Voertuig/editVoertuigPage/" . $voertuig->Id . "/";
 
             if ($voertuig->InstructeurId != null) {
                 $editEl .= $voertuig->InstructeurId;
@@ -77,9 +77,9 @@ class Voertuig extends BaseController
         $this->view('Voertuigen/overzichtVoertuigen', $data);
     }
 
-    public function editVoertuig($carId, $instId = null)
+    public function editVoertuigPage($carId, $instId = null)
     {
-        if ($instId == "null") {
+        if ($instId == "null" || $instId == null) {
             $result = $this->voertuigModel->getVoertuig($carId);
         } else {
             $result = $this->voertuigModel->getVoertuigInstructor($carId, $instId);
@@ -87,6 +87,8 @@ class Voertuig extends BaseController
         $data = [
             'title' => 'Verander voertuig',
             'buttonText' => 'Verander voertuig',
+            'formAction' => '/Voertuig/editVoertuig',
+            'oldInstrId' => $instId,
             'voertuig' => (is_array($result)) ? $result[0] : $result,
             'subData' => $this->voertuigModel->getTypes(),
         ];
@@ -94,15 +96,62 @@ class Voertuig extends BaseController
         $this->view('Voertuigen/voertuigForm', $data);
     }
 
-    public function createVoertuig()
+    public function editVoertuig()
+    {
+        $voertuig = [
+            'type' => $_POST['type'],
+            'typevoer' => $_POST['typevoer'],
+            'bouwjaar' => $_POST['bouwjaar'],
+            'brandstof' => $_POST['Brandstof'],
+            'kenteken' => $_POST['kenteken'],
+            'instructeurId' => $_POST['instr'],
+            'oldInstrId' => $_POST['oldInstrId'],
+            'Id' => $_POST['voertuigId']
+        ];
+
+        $this->voertuigModel->updateVoertuig($voertuig);
+
+        $data = [
+            'title' => 'Voertuig updated',
+            'message' => "Voertuig is succesvol veranderd",
+            'link' => "/Voertuig/overzichtVoertuigen"
+        ];
+
+        $this->view('Messages/succes', $data);
+    }
+
+    public function createVoertuigPage()
     {
         $data = [
             'title' => 'Voeg nieuw voertuig toe',
             'buttonText' => 'Voeg voertuig toe',
+            'formAction' => '/Voertuig/createVoertuig',
             'voertuig' => null,
             'subData' => $this->voertuigModel->getTypes()
         ];
 
         $this->view('Voertuigen/voertuigForm', $data);
+    }
+
+    public function createVoertuig()
+    {
+        $voertuig = [
+            'type' => $_POST['type'],
+            'typevoer' => $_POST['typevoer'],
+            'bouwjaar' => $_POST['bouwjaar'],
+            'brandstof' => $_POST['Brandstof'],
+            'kenteken' => $_POST['kenteken'],
+            'instructeurId' => $_POST['instr']
+        ];
+
+        $this->voertuigModel->createVoertuig($voertuig);
+
+        $data = [
+            'title' => 'Voertuig toegevoegd',
+            'message' => "Voertuig is succesvol toegevoegd",
+            'link' => "/Voertuig/overzichtVoertuigen"
+        ];
+
+        $this->view('Messages/succes', $data);
     }
 }

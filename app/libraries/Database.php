@@ -7,7 +7,7 @@ class Database
 
     public function __construct()
     {
-        $conn = 'mysql:host=' . DB_HOST . ';dbname='. DB_NAME . ';charset=UTF8';
+        $conn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=UTF8';
 
         try {
             $this->dbHandler = new PDO($conn, DB_USER, DB_PASS);
@@ -17,8 +17,7 @@ class Database
             } else {
                 echo "Interne server-error";
             }
-
-        } catch(PDOException $e) {
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }
@@ -26,9 +25,11 @@ class Database
     public function query($sql)
     {
         $this->statement = $this->dbHandler->prepare($sql);
+        return $this->statement;
     }
 
-    public function excecuteWithoutReturn(){
+    public function executeWithoutReturn()
+    {
         $this->statement->execute();
     }
 
@@ -37,6 +38,4 @@ class Database
         $this->statement->execute();
         return $this->statement->fetchAll(PDO::FETCH_OBJ);
     }
-
-
 }
