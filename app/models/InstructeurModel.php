@@ -79,6 +79,20 @@ class InstructeurModel
 
         $this->db->query($sql);
 
+        $this->db->resultSet();
+    }
+
+    public function deleteCarFromInstructeur($CarId, $PersonId)
+    {
+        $sql = "DELETE FROM voertuiginstructeur
+                WHERE VoertuigId = :CarId
+                AND InstructeurId = :PersonId;";
+
+        $this->db->query($sql);
+
+        $this->db->bind(':CarId', $CarId);
+        $this->db->bind(':PersonId', $PersonId);
+
         $this->db->excecuteWithoutReturn();
     }
 }

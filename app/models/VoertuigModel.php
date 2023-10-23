@@ -62,4 +62,26 @@ class VoertuigModel
         $this->db->query($sql);
         return $this->db->resultSet();
     }
+
+    public function deleteVoertuig($id, $instructeurId)
+    {
+        if (!is_null($instructeurId)) {
+            $sql = "DELETE FROM VoertuigInstructeur WHERE VoertuigId = :id AND InstructeurId = :instructeurId";
+
+            $this->db->query($sql);
+
+            $this->db->bind(':id', $id);
+            $this->db->bind(':instructeurId', $instructeurId);
+
+            $this->db->excecuteWithoutReturn();
+        }
+
+        $sql = "DELETE FROM Voertuig WHERE Id = :id";
+
+        $this->db->query($sql);
+
+        $this->db->bind(':id', $id);
+
+        $this->db->excecuteWithoutReturn();
+    }
 }

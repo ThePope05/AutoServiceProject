@@ -16,38 +16,36 @@ class Voertuig extends BaseController
         $rows = "";
         $amount = 0;
         foreach ($result as $voertuig) {
-            $date = date_create($voertuig->DatumToekenning);
-            $formattedDate = date_format($date, "d-m-Y");
             $amount++;
-
-            //I need all car data in the tabel
-            //There needs to be a link that goes to the linked instructor
-            //I need only the last name of the instructor
-            //This needs to be right before the link to the instructor
-            //It needs to be html To inject into the $rows variable
-            
-            //I need a variable to determine if $amount is an odd or even number and make a boolean out of it
 
             $isOdd = $amount % 2 == 1;
             $backgroundColor = "white";
 
-            if($isOdd){
+            if ($isOdd) {
                 $backgroundColor = "#edd";
             }
 
-            if($voertuig->InstructeurId == null){
+            if ($voertuig->InstructeurId == null) {
                 $voertuig->Voornaam = "Niet";
                 $voertuig->Tussenvoegsel = "toegewezen";
                 $voertuig->Achternaam = "";
 
                 $linkEl = "";
-            }else{
-                $linkEl = "<a href='" . URLROOT . "/instructeur/overzichtVoertuigen/" . $voertuig->InstructeurId . "'>
+            } else {
+                $linkEl = "<a href='" . URLROOT . "/instructeur/overzichtVoertuigen/$voertuig->InstructeurId'>
                                 <span class='material-symbols-outlined'>
                                     person
                                 </span>
                             </a>";
             }
+
+            $deleteEl = "<a href='/voertuig/deleteVoertuig/$voertuig->Id";
+            $deleteEl .= (!is_null($voertuig->InstructeurId)) ? "/" . $voertuig->InstructeurId : "";
+            $deleteEl .= "'>
+                                <span class='material-symbols-outlined'>
+                                    delete
+                                </span>
+                            </a>";
 
             $rows .= "<tr style='background-Color: " . $backgroundColor . ";'>
                         <td>$voertuig->TypeVoertuig</td>
@@ -58,6 +56,7 @@ class Voertuig extends BaseController
                         <td>$voertuig->RijbewijsCategorie</td>
                         <td>$voertuig->Voornaam $voertuig->Tussenvoegsel $voertuig->Achternaam</td>
                         <td>$linkEl</td>
+                        <td>$deleteEl</td>
                       </tr>";
         }
 
@@ -70,7 +69,8 @@ class Voertuig extends BaseController
         $this->view('Voertuigen/overzichtVoertuigen', $data);
     }
 
-    public function editVoertuig($id){
+    public function editVoertuig($id)
+    {
         $result = $this->voertuigModel->getVoertuig($id);
 
         $data = [
@@ -83,83 +83,10 @@ class Voertuig extends BaseController
         $this->view('Voertuigen/editVoertuig', $data);
     }
 
-    // public function overzichtVoertuigen($Id)
-    // {
-    //     $result = $this->instructeurModel->getInstructeurs();
-    //     foreach($result as $person){
-    //         if($person->Id == $Id){
-    //             $instructeur = $person;
-    //         }
-    //     }
+    public function deleteVoertuig($id, $instructeurId = null)
+    {
+        $this->voertuigModel->deleteVoertuig($id, $instructeurId);
 
-    //     $result = $this->instructeurModel->getToegewezenVoertuigen($Id);
-    //     if($result != null){
-    //         $tableRows = "";
-    //         foreach($result as $voertuig){
-    //             $tableRows .= "<tr>
-    //                             <td>$voertuig->TypeVoertuig</td>
-    //                             <td>$voertuig->Type</td>
-    //                             <td>$voertuig->Kenteken</td>
-    //                             <td>$voertuig->Bouwjaar</td>
-    //                             <td>$voertuig->Brandstof</td>
-    //                             <td>$voertuig->RijbewijsCategorie</td>
-    //                            </tr> ";
-    //         };
-    //     }else{
-    //         $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
-    //     }
-
-    //     $data = [
-    //         'title' => 'Door instructeur gebruikte voertuigen',
-    //         'tableRows' => $tableRows,
-    //         'personData' => $instructeur
-    //     ];
-
-    //     $this->view('Instructeur/overzichtVoertuigen', $data);
-    // }
-
-    // public function beschikbarenVoertuigen($Id){
-    //     $result = $this->instructeurModel->getInstructeurs();
-    //     foreach($result as $person){
-    //         if($person->Id == $Id){
-    //             $instructeur = $person;
-    //         }
-    //     }
-
-    //     $result = $this->instructeurModel->getVrijeVoertuigen($Id);
-    //     if($result != null){
-    //         $tableRows = "";
-    //         foreach($result as $voertuig){
-    //             $tableRows .= "<tr>
-    //                             <td>$voertuig->TypeVoertuig</td>
-    //                             <td>$voertuig->Type</td>
-    //                             <td>$voertuig->Kenteken</td>
-    //                             <td>$voertuig->Bouwjaar</td>
-    //                             <td>$voertuig->Brandstof</td>
-    //                             <td>$voertuig->RijbewijsCategorie</td>
-    //                             <td>
-    //                                 <a href='" . URLROOT . "/instructeur/beschikbarenVoertuigen/" . $instructeur->Id . "?Update=true&CarId=$voertuig->Id'>
-    //                                     <span class='material-symbols-outlined'>
-    //                                         add_box
-    //                                     </span>
-    //                                 </a>
-    //                             </td>
-    //                            </tr> ";
-    //         };
-    //     }else{
-    //         $tableRows = "<tr><td colspan='7'>Geen vrije voertuigen</td></tr>";
-    //     }
-
-    //     $data = [
-    //         'title' => 'Alle beschikbaren voertuigen',
-    //         'tableRows' => $tableRows,
-    //         'personData' => $instructeur
-    //     ];
-
-    //     $this->view('Instructeur/beschikbarenVoertuigen', $data);
-    // }
-
-    // public function updateVoertuigen($CarId, $PersonId){
-    //     $this->instructeurModel->addCarToInstructeur($CarId, $PersonId);
-    // }
+        header("Location: " . URLROOT . "/voertuig/overzichtVoertuigen");
+    }
 }

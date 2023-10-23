@@ -6,10 +6,15 @@ body {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+
+    width: 100%;
+    height: 100vh;
 }
 
 *{
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 table {
@@ -35,6 +40,16 @@ th, td {
     transition: box-shadow cubic-bezier(1, 0.01, 0, 0.92) .3s;
 }
 
+.back{
+    position: absolute;
+    left: 5rem;
+    top: 5rem;
+}
+
+.message{
+    background-color: rgb(99, 138, 65);
+}
+
 .button:hover{
     box-shadow: .2rem .2rem 0 rgba(0, 0, 0, 0.6);
 }
@@ -47,4 +62,124 @@ a{
 
 a:hover{
     color: #797979;
+}
+
+.row{
+    display: flex;
+    flex-direction: row;
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+
+.center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.space-between{
+    justify-content: space-between;
+}
+
+.space-evenly{
+    justify-content: space-evenly;
+}
+
+.w-1{
+    width: 8.33%;
+}
+
+.w-2{
+    width: 16.66%;
+}
+
+.w-3{
+    width: 25%;
+}
+
+.w-4{
+    width: 33.33%;
+}
+
+.w-5{
+    width: 41.66%;
+}
+
+.w-6{
+    width: 50%;
+}
+
+.w-7{
+    width: 58.33%;
+}
+
+.w-8{
+    width: 66.66%;
+}
+
+.w-9{
+    width: 75%;
+}
+
+.w-10{
+    width: 83.33%;
+}
+
+.w-11{
+    width: 91.66%;
+}
+
+.w-12{
+    width: 100%;
+}
+
+.h-1{
+    height: 8.33%;
+}
+
+.h-2{
+    height: 16.66%;
+}
+
+.h-3{
+    height: 25%;
+}
+
+.h-4{
+    height: 33.33%;
+}
+
+.h-5{
+    height: 41.66%;
+}
+
+.h-6{
+    height: 50%;
+}
+
+.h-7{
+    height: 58.33%;
+}
+
+.h-8{
+    height: 66.66%;
+}
+
+.h-9{
+    height: 75%;
+}
+
+.h-10{
+    height: 83.33%;
+}
+
+.h-11{
+    height: 91.66%;
+}
+
+.h-12{
+    height: 100%;
 }

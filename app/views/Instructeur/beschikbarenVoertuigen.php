@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,20 +9,21 @@
     <link rel="stylesheet" href="<?= URLROOT; ?>/css/style.css">
     <title>Overzicht Instructeurs</title>
 </head>
+
 <body>
     <?php
-        if(isset($_GET['Update']) && $_GET['Update'] == true){
-            $this->updateVoertuigen($_GET['CarId'], $data['personData']->Id);
-            header(URLROOT . "/instructeur/overzichtVoertuigen/");
-        }
+    if (isset($_GET['Update']) && $_GET['Update'] == true) {
+        $this->updateVoertuigen($_GET['CarId'], $data['personData']->Id);
+        header(URLROOT . "/instructeur/overzichtVoertuigen/");
+    }
     ?>
     <u><?= $data['title']; ?></u>
-    <a href="<?= URLROOT . "/instructeur/overzichtVoertuigen/" . $data['personData']->Id ?>" class="button">Back</a>
+    <a href="<?= URLROOT . "/instructeur/overzichtVoertuigen/" . $data['personData']->Id ?>" class="button back">Back</a>
     <p>
         Naam: <?= $data['personData']->Voornaam . " " . $data['personData']->Tussenvoegsel . " " . $data['personData']->Achternaam ?> <br>
         Datum in dienst: <?= $data['personData']->DatumInDienst; ?> <br>
         Aantal sterren: <?= $data['personData']->AantalSterren ?>
-    </p> 
+    </p>
 
     <table>
         <thead>
@@ -38,5 +40,5 @@
         </tbody>
     </table>
 </body>
-</html>
 
+</html>

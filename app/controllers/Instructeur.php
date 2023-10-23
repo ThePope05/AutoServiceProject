@@ -37,7 +37,7 @@ class Instructeur extends BaseController
                         </td>            
                       </tr>";
         }
-        
+
         $data = [
             'title' => 'Instructeurs in dienst',
             'rows' => $rows,
@@ -47,19 +47,19 @@ class Instructeur extends BaseController
         $this->view('Instructeur/overzichtinstructeur', $data);
     }
 
-    public function overzichtVoertuigen($Id)
+    public function overzichtVoertuigen($Id, $Message = null)
     {
         $result = $this->instructeurModel->getInstructeurs();
-        foreach($result as $person){
-            if($person->Id == $Id){
+        foreach ($result as $person) {
+            if ($person->Id == $Id) {
                 $instructeur = $person;
             }
         }
 
         $result = $this->instructeurModel->getToegewezenVoertuigen($Id);
-        if($result != null){
+        if ($result != null) {
             $tableRows = "";
-            foreach($result as $voertuig){
+            foreach ($result as $voertuig) {
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
                                 <td>$voertuig->Type</td>
@@ -74,33 +74,42 @@ class Instructeur extends BaseController
                                         </span>
                                     </a>
                                 </th>
+                                <th>
+                                    <a href='" . URLROOT . "/instructeur/deleteCar/$voertuig->Id/$instructeur->Id'>
+                                        <span class='material-symbols-outlined'>
+                                            delete
+                                        </span>
+                                    </a>
+                                </th>
                                </tr> ";
             };
-        }else{
+        } else {
             $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
         }
 
         $data = [
             'title' => 'Door instructeur gebruikte voertuigen',
             'tableRows' => $tableRows,
-            'personData' => $instructeur
+            'personData' => $instructeur,
+            'message' => $Message
         ];
 
         $this->view('Instructeur/overzichtVoertuigen', $data);
     }
 
-    public function beschikbarenVoertuigen($Id){
+    public function beschikbarenVoertuigen($Id)
+    {
         $result = $this->instructeurModel->getInstructeurs();
-        foreach($result as $person){
-            if($person->Id == $Id){
+        foreach ($result as $person) {
+            if ($person->Id == $Id) {
                 $instructeur = $person;
             }
         }
 
         $result = $this->instructeurModel->getVrijeVoertuigen($Id);
-        if($result != null){
+        if ($result != null) {
             $tableRows = "";
-            foreach($result as $voertuig){
+            foreach ($result as $voertuig) {
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
                                 <td>$voertuig->Type</td>
@@ -117,7 +126,7 @@ class Instructeur extends BaseController
                                 </td>
                                </tr> ";
             };
-        }else{
+        } else {
             $tableRows = "<tr><td colspan='7'>Geen vrije voertuigen</td></tr>";
         }
 
@@ -130,7 +139,17 @@ class Instructeur extends BaseController
         $this->view('Instructeur/beschikbarenVoertuigen', $data);
     }
 
-    public function updateVoertuigen($CarId, $PersonId){
+    public function updateVoertuigen($CarId, $PersonId)
+    {
         $this->instructeurModel->addCarToInstructeur($CarId, $PersonId);
+
+        header("Location: " . URLROOT . "/instructeur/overzichtVoertuigen/$PersonId/Voertuig%20toegevoegd");
+    }
+
+    public function deleteCar($CarId, $PersonId)
+    {
+        $this->instructeurModel->deleteCarFromInstructeur($CarId, $PersonId);
+
+        header("Location: " . URLROOT . "/instructeur/overzichtVoertuigen/$PersonId/Voertuig%20verwijderd");
     }
 }
