@@ -18,11 +18,30 @@ class InstructeurModel
                       ,Mobiel
                       ,DatumInDienst
                       ,AantalSterren
+                      ,IsActief
                 FROM  Instructeur
                 ORDER BY AantalSterren DESC";
 
         $this->db->query($sql);
         return $this->db->resultSet();
+    }
+
+    public function setActive(bool $curState, int $Id)
+    {
+        if ($curState) {
+            $sql = "UPDATE Instructeur
+                    SET IsActief = 0
+                    WHERE Id = :Id";
+        } else {
+            $sql = "UPDATE Instructeur
+                    SET IsActief = 1
+                    WHERE Id = :Id";
+        }
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id);
+
+        $this->db->excecuteWithoutReturn();
     }
 
     public function getToegewezenVoertuigen($Id)
@@ -33,16 +52,21 @@ class InstructeurModel
                        VOER.Kenteken,
                        VOER.Bouwjaar,
                        VOER.Brandstof,
-                       TYVO.RijbewijsCategorie
+                       TYVO.RijbewijsCategorie,
+                       INSTR.IsActief
                 FROM   Voertuig AS VOER
                 INNER JOIN TypeVoertuig AS TYVO
                 ON VOER.TypeVoertuigId = TYVO.Id
+                INNER JOIN Instructeur AS INSTR
+                ON INSTR.Id = :Id
                 WHERE VOER.Id IN (
                 SELECT VoertuigId FROM voertuiginstructeur 
-                WHERE InstructeurId = $Id)
+                WHERE InstructeurId = :Id) AND INSTR.IsActief = 1
                 ORDER BY TYVO.RijbewijsCategorie";
 
         $this->db->query($sql);
+
+        $this->db->bind(':Id', $Id);
 
         return $this->db->resultSet();
     }

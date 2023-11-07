@@ -19,6 +19,22 @@ class Instructeur extends BaseController
             $date = date_create($instructeur->DatumInDienst);
             $formattedDate = date_format($date, "d-m-Y");
             $amount++;
+
+            $verlofEl = ($instructeur->IsActief) ? "<td>
+                            <a href='" . URLROOT . "/Instructeur/setActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
+                                <span class='material-symbols-outlined'>
+                                    recommend
+                                </span>
+                            </a>
+                        </td>" : "
+                        <td>
+                            <a href='" . URLROOT . "/Instructeur/setActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
+                                <span class='material-symbols-outlined'>
+                                    healing
+                                </span>
+                            </a>
+                        </td>";
+
             $rows .= "<tr>
                         <td>$instructeur->Voornaam</td>
                         <td>$instructeur->Tussenvoegsel</td>
@@ -33,13 +49,7 @@ class Instructeur extends BaseController
                                 </span>
                             </a>
                         </td>   
-                        <td>
-                            <a href=''>
-                                <span class='material-symbols-outlined'>
-                                healing
-                                </span>
-                            </a>
-                        </td>         
+                        $verlofEl       
                       </tr>";
         }
 
@@ -50,6 +60,13 @@ class Instructeur extends BaseController
         ];
 
         $this->view('Instructeur/overzichtinstructeur', $data);
+    }
+
+    public function setActive($curState, $Id)
+    {
+        $this->instructeurModel->setActive($curState, $Id);
+
+        $this->overzichtInstructeur();
     }
 
     public function overzichtVoertuigen($Id, $Message = null)
