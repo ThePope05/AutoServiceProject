@@ -13,8 +13,6 @@ class Instructeur extends BaseController
     {
         $result = $this->instructeurModel->getInstructeurs();
 
-        //  var_dump($result);
-
         $rows = "";
         $amount = 0;
         foreach ($result as $instructeur) {
@@ -34,7 +32,14 @@ class Instructeur extends BaseController
                                 directions_car
                                 </span>
                             </a>
-                        </td>            
+                        </td>   
+                        <td>
+                            <a href=''>
+                                <span class='material-symbols-outlined'>
+                                healing
+                                </span>
+                            </a>
+                        </td>         
                       </tr>";
         }
 
