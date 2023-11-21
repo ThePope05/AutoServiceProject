@@ -106,7 +106,11 @@ class Instructeur extends BaseController
                                </tr> ";
             };
         } else {
-            $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
+            if ($instructeur->IsActief) {
+                $tableRows = "<tr><td colspan='6'>Nog geen voertuigen toegewezen</td></tr>";
+            } else {
+                $tableRows = "<tr><td colspan='6'>Instructeur is niet actief</td></tr>";
+            }
         }
 
         $data = [
