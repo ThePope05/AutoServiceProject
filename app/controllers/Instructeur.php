@@ -9,6 +9,11 @@ class Instructeur extends BaseController
         $this->instructeurModel = $this->model('InstructeurModel');
     }
 
+    public function index()
+    {
+        $this->overzichtInstructeur();
+    }
+
     public function overzichtInstructeur()
     {
         $result = $this->instructeurModel->getInstructeurs();
@@ -66,7 +71,7 @@ class Instructeur extends BaseController
     {
         $this->instructeurModel->setActive($curState, $Id);
 
-        $this->overzichtInstructeur();
+        header("Location: " . URLROOT . "/Message/message/Instructeur%20is%20aangepast/Instructeur");
     }
 
     public function overzichtVoertuigen($Id, $Message = null)
