@@ -45,11 +45,11 @@ class InstructeurModel
 
         if ($curState) {
             $sql = "UPDATE VoertuigInstructeur
-                    SET IsActief = 0
+                    SET IsActief = 0, DatumGewijzigd = SYSDATE(6)
                     WHERE InstructeurId = :Id";
         } else {
             $sql = "UPDATE VoertuigInstructeur
-                    SET IsActief = 1
+                    SET IsActief = 1, DatumGewijzigd = SYSDATE(6)
                     WHERE InstructeurId = :Id";
         }
 
@@ -84,6 +84,35 @@ class InstructeurModel
         $this->db->bind(':Id', $Id);
 
         return $this->db->resultSet();
+    }
+
+    public function getSickLeaveActivity(int $instructorId, int $CarId)
+    {
+        $sql = "SELECT Id
+                FROM VoertuigInstructeur
+                WHERE VoertuigId = :CarId
+                AND InstructeurId != :instructorId
+                AND DatumAangemaakt < (
+                    SELECT DatumGewijzigd
+                    FROM VoertuigInstructeur
+                    WHERE InstructeurId = :instructorId
+                    AND VoertuigId = :CarId
+                );";
+
+        $this->db->query($sql);
+
+        $this->db->bind(':instructorId', $instructorId);
+        $this->db->bind(':CarId', $CarId);
+
+        $result = $this->db->resultSet();
+
+        foreach ($result as $row) {
+            if (isset($row->Id)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public function getVrijeVoertuigen($Id)

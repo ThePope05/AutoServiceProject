@@ -91,6 +91,15 @@ class Instructeur extends BaseController
         if ($result != null) {
             $tableRows = "";
             foreach ($result as $voertuig) {
+                $toegewezenEl = ($this->instructeurModel->getSickLeaveActivity($instructeur->Id, $voertuig->Id)) ? "
+                <span class='material-symbols-outlined'>
+                    check_box
+                </span>"
+                    : "
+                <span class='material-symbols-outlined'>
+                    check_box_outline_blank
+                </span>";
+
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
                                 <td>$voertuig->Type</td>
@@ -98,6 +107,7 @@ class Instructeur extends BaseController
                                 <td>$voertuig->Bouwjaar</td>
                                 <td>$voertuig->Brandstof</td>
                                 <td>$voertuig->RijbewijsCategorie</td>
+                                <td>$toegewezenEl</td>
                                 <th>
                                     <a href='" . URLROOT . "/Voertuig/editVoertuig/" . $voertuig->Id . "'>
                                         <span class='material-symbols-outlined'>

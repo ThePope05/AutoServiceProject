@@ -32,6 +32,7 @@
                 <th>Bouwjaar</th>
                 <th>Brandstof</th>
                 <th>Rijbewijs</th>
+                <th>Toegewezen</th>
                 <th>Edit</th>
                 <th>Delete</th>
             </thead>
