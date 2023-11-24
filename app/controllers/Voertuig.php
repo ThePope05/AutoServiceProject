@@ -12,6 +12,8 @@ class Voertuig extends BaseController
     public function overzichtVoertuigen()
     {
         $result = $this->voertuigModel->getVoertuigen();
+        $inactiveCars = [];
+        $i = 0;
 
         $rows = "";
         $amount = 0;
@@ -40,6 +42,8 @@ class Voertuig extends BaseController
 
                 if (!$this->voertuigModel->isActief($voertuig->InstructeurId)) {
                     $backgroundColor = "#ff0000";
+                    $inactiveCars[$i] = $voertuig;
+                    $i++;
                 }
             }
 
