@@ -22,7 +22,7 @@ class Voertuig extends BaseController
             $backgroundColor = "white";
 
             if ($isOdd) {
-                $backgroundColor = "#edd";
+                $backgroundColor = "#ddd";
             }
 
             if ($voertuig->InstructeurId == null) {
@@ -37,6 +37,10 @@ class Voertuig extends BaseController
                                     person
                                 </span>
                             </a>";
+
+                if (!$this->voertuigModel->isActief($voertuig->InstructeurId)) {
+                    $backgroundColor = "#ff0000";
+                }
             }
 
             $deleteEl = "<a href='/voertuig/deleteVoertuig/$voertuig->Id";

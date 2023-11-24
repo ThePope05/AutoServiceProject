@@ -63,6 +63,18 @@ class VoertuigModel
         return $this->db->resultSet();
     }
 
+    public function isActief($Id)
+    {
+        $sql = "SELECT IsActief
+                FROM   Instructeur
+                WHERE  Id = :Id";
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id);
+
+        return $this->db->resultSet()[0]->IsActief;
+    }
+
     public function deleteVoertuig($id, $instructeurId)
     {
         if (!is_null($instructeurId)) {
