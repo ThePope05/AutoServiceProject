@@ -42,6 +42,21 @@ class InstructeurModel
         $this->db->bind(':Id', $Id);
 
         $this->db->excecuteWithoutReturn();
+
+        if ($curState) {
+            $sql = "UPDATE VoertuigInstructeur
+                    SET IsActief = 0
+                    WHERE InstructeurId = :Id";
+        } else {
+            $sql = "UPDATE VoertuigInstructeur
+                    SET IsActief = 1
+                    WHERE InstructeurId = :Id";
+        }
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id);
+
+        $this->db->excecuteWithoutReturn();
     }
 
     public function getToegewezenVoertuigen($Id)
