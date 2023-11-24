@@ -99,7 +99,7 @@ class InstructeurModel
                 INNER JOIN TypeVoertuig AS TYVO
                 ON VOER.TypeVoertuigId = TYVO.Id
                 WHERE VOER.Id NOT IN (
-                    SELECT VoertuigId from voertuiginstructeur
+                    SELECT VoertuigId from voertuiginstructeur WHERE isactief = 1
                 );";
 
         $this->db->query($sql);
