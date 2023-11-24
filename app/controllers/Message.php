@@ -9,8 +9,10 @@ class Message extends BaseController
 
     public function message(string $message, string $ref, float $time = 3)
     {
+        $cleanedMessage = str_replace("_", " ", $message);
+
         $data = [
-            'message' => $message,
+            'message' => $cleanedMessage,
             'ref' => $ref,
             'time' => $time
         ];

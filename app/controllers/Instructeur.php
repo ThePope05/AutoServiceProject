@@ -71,7 +71,11 @@ class Instructeur extends BaseController
     {
         $this->instructeurModel->setActive($curState, $Id);
 
-        header("Location: " . URLROOT . "/Message/message/Instructeur%20is%20aangepast/Instructeur");
+        if ($curState) {
+            header("Location: " . URLROOT . "/Message/Message/Instructeur_is_niet_actief/Instructeur");
+        } else {
+            header("Location: " . URLROOT . "/Message/Message/Instructeur_is_actief/Instructeur");
+        }
     }
 
     public function overzichtVoertuigen($Id, $Message = null)
