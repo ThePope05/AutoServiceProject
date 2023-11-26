@@ -97,6 +97,12 @@ class InstructeurModel
                     FROM VoertuigInstructeur
                     WHERE InstructeurId = :instructorId
                     AND VoertuigId = :CarId
+                )
+                AND DatumAangemaakt > (
+                    SELECT DatumAangemaakt
+                    FROM VoertuigInstructeur
+                    WHERE InstructeurId = :instructorId
+                    AND VoertuigId = :CarId
                 );";
 
         $this->db->query($sql);
