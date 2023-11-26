@@ -40,6 +40,14 @@ th, td {
     transition: box-shadow cubic-bezier(1, 0.01, 0, 0.92) .3s;
 }
 
+.red{
+    color: rgb(255, 0, 0);
+}
+
+.green{
+    color: rgb(0, 255, 0);
+}
+
 .back{
     position: absolute;
     left: 5rem;

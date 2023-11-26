@@ -26,7 +26,7 @@ class InstructeurModel
         return $this->db->resultSet();
     }
 
-    public function setActive(bool $curState, int $Id)
+    public function setInstructorActive(bool $curState, int $Id)
     {
         if ($curState) {
             $sql = "UPDATE Instructeur
@@ -42,19 +42,22 @@ class InstructeurModel
         $this->db->bind(':Id', $Id);
 
         $this->db->excecuteWithoutReturn();
+    }
 
-        if ($curState) {
-            $sql = "UPDATE VoertuigInstructeur
-                    SET IsActief = 0, DatumGewijzigd = SYSDATE(6)
-                    WHERE InstructeurId = :Id";
-        } else {
-            $sql = "UPDATE VoertuigInstructeur
-                    SET IsActief = 1, DatumGewijzigd = SYSDATE(6)
-                    WHERE InstructeurId = :Id";
-        }
+    public function setCarInstructorActive(int $CarId, int $PersonId)
+    {
+        $sql = "UPDATE VoertuigInstructeur
+                SET IsActief = 1
+                WHERE VoertuigId = :CarId
+                AND InstructeurId = :PersonId;
+                UPDATE VoertuigInstructeur
+                SET IsActief = 0
+                WHERE VoertuigId = :CarId
+                AND InstructeurId != :PersonId";
 
         $this->db->query($sql);
-        $this->db->bind(':Id', $Id);
+        $this->db->bind(':CarId', $CarId);
+        $this->db->bind(':PersonId', $PersonId);
 
         $this->db->excecuteWithoutReturn();
     }
@@ -88,22 +91,10 @@ class InstructeurModel
 
     public function getSickLeaveActivity(int $instructorId, int $CarId)
     {
-        $sql = "SELECT Id
+        $sql = "SELECT Id, IsActief
                 FROM VoertuigInstructeur
                 WHERE VoertuigId = :CarId
-                AND InstructeurId != :instructorId
-                AND DatumAangemaakt < (
-                    SELECT DatumGewijzigd
-                    FROM VoertuigInstructeur
-                    WHERE InstructeurId = :instructorId
-                    AND VoertuigId = :CarId
-                )
-                AND DatumAangemaakt > (
-                    SELECT DatumAangemaakt
-                    FROM VoertuigInstructeur
-                    WHERE InstructeurId = :instructorId
-                    AND VoertuigId = :CarId
-                );";
+                AND InstructeurId = :instructorId;";
 
         $this->db->query($sql);
 
@@ -112,13 +103,7 @@ class InstructeurModel
 
         $result = $this->db->resultSet();
 
-        foreach ($result as $row) {
-            if (isset($row->Id)) {
-                return true;
-            }
-        }
-
-        return false;
+        return $result[0];
     }
 
     public function getVrijeVoertuigen($Id)
@@ -134,7 +119,10 @@ class InstructeurModel
                 INNER JOIN TypeVoertuig AS TYVO
                 ON VOER.TypeVoertuigId = TYVO.Id
                 WHERE VOER.Id NOT IN (
-                    SELECT VoertuigId from voertuiginstructeur WHERE isactief = 1
+                    SELECT VoertuigId FROM voertuiginstructeur
+                    INNER JOIN Instructeur AS INSTR
+                    ON InstructeurId = INSTR.Id
+                    WHERE INSTR.IsActief = 1
                 );";
 
         $this->db->query($sql);
@@ -144,6 +132,17 @@ class InstructeurModel
 
     public function addCarToInstructeur($CarId, $PersonId)
     {
+        $sql = "UPDATE voertuiginstructeur
+                SET IsActief = 0
+                WHERE InstructeurId != :PersonId
+                AND VoertuigId = :CarId";
+
+        $this->db->query($sql);
+        $this->db->bind(':PersonId', $PersonId);
+        $this->db->bind(':CarId', $CarId);
+
+        $this->db->excecuteWithoutReturn();
+
         $sql = "INSERT INTO voertuiginstructeur
                 VALUES(null, 
                 (SELECT Id FROM Voertuig WHERE Id = $CarId),

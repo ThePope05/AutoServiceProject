@@ -26,14 +26,14 @@ class Instructeur extends BaseController
             $amount++;
 
             $verlofEl = ($instructeur->IsActief) ? "<td>
-                            <a href='" . URLROOT . "/Instructeur/setActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
+                            <a href='" . URLROOT . "/Instructeur/setInstructorActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
                                 <span class='material-symbols-outlined'>
                                     recommend
                                 </span>
                             </a>
                         </td>" : "
                         <td>
-                            <a href='" . URLROOT . "/Instructeur/setActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
+                            <a href='" . URLROOT . "/Instructeur/setInstructorActive/" . $instructeur->IsActief . "/" . $instructeur->Id . "'>
                                 <span class='material-symbols-outlined'>
                                     healing
                                 </span>
@@ -67,15 +67,22 @@ class Instructeur extends BaseController
         $this->view('Instructeur/overzichtinstructeur', $data);
     }
 
-    public function setActive($curState, $Id)
+    public function setInstructorActive($curState, $Id)
     {
-        $this->instructeurModel->setActive($curState, $Id);
+        $this->instructeurModel->setInstructorActive($curState, $Id);
 
         if ($curState) {
             header("Location: " . URLROOT . "/Message/Message/Instructeur_is_niet_actief/Instructeur");
         } else {
             header("Location: " . URLROOT . "/Message/Message/Instructeur_is_actief/Instructeur");
         }
+    }
+
+    public function switchCarInstructorActive(int $CarId, int $PersonId)
+    {
+        $this->instructeurModel->setCarInstructorActive($CarId, $PersonId);
+
+        header("Location: " . URLROOT . "/Message/Message/Auto_is_opnieuw_toegewezen/Instructeur");
     }
 
     public function overzichtVoertuigen($Id, $Message = null)
@@ -91,14 +98,19 @@ class Instructeur extends BaseController
         if ($result != null) {
             $tableRows = "";
             foreach ($result as $voertuig) {
-                $toegewezenEl = ($this->instructeurModel->getSickLeaveActivity($instructeur->Id, $voertuig->Id)) ? "
-                <span class='material-symbols-outlined'>
+                $sickLeaveActivity = $this->instructeurModel->getSickLeaveActivity($instructeur->Id, $voertuig->Id);
+                $toegewezenEl = "
+                <span class='material-symbols-outlined green'>
                     check_box
-                </span>"
-                    : "
-                <span class='material-symbols-outlined'>
-                    check_box_outline_blank
                 </span>";
+                if (!$sickLeaveActivity->IsActief) {
+                    $toegewezenEl = "
+                    <a href='" . URLROOT . "/Instructeur/switchCarInstructorActive/" . $voertuig->Id . "/" . $instructeur->Id . "'>
+                        <span class='material-symbols-outlined red'>
+                            check_box
+                        </span>
+                    </a>";
+                }
 
                 $tableRows .= "<tr>
                                 <td>$voertuig->TypeVoertuig</td>
