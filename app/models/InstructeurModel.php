@@ -26,6 +26,25 @@ class InstructeurModel
         return $this->db->resultSet();
     }
 
+    public function getInstructeurById(int $Id)
+    {
+        $sql = "SELECT Id
+                      ,Voornaam
+                      ,Tussenvoegsel
+                      ,Achternaam
+                      ,Mobiel
+                      ,DatumInDienst
+                      ,AantalSterren
+                      ,IsActief
+                FROM  Instructeur
+                WHERE Id = :Id";
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id);
+
+        return $this->db->resultSet();
+    }
+
     public function setInstructorActive(bool $curState, int $Id)
     {
         if ($curState) {
@@ -37,6 +56,17 @@ class InstructeurModel
                     SET IsActief = 1
                     WHERE Id = :Id";
         }
+
+        $this->db->query($sql);
+        $this->db->bind(':Id', $Id);
+
+        $this->db->excecuteWithoutReturn();
+    }
+
+    public function deleteInstructor(int $Id)
+    {
+        $sql = "DELETE FROM Instructeur
+                WHERE Id = :Id";
 
         $this->db->query($sql);
         $this->db->bind(':Id', $Id);
@@ -164,6 +194,18 @@ class InstructeurModel
         $this->db->query($sql);
 
         $this->db->bind(':CarId', $CarId);
+        $this->db->bind(':PersonId', $PersonId);
+
+        $this->db->excecuteWithoutReturn();
+    }
+
+    public function deleteCarsFromInstructeur($PersonId)
+    {
+        $sql = "DELETE FROM voertuiginstructeur
+                WHERE InstructeurId = :PersonId;";
+
+        $this->db->query($sql);
+
         $this->db->bind(':PersonId', $PersonId);
 
         $this->db->excecuteWithoutReturn();

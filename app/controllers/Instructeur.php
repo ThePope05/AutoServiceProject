@@ -40,6 +40,14 @@ class Instructeur extends BaseController
                             </a>
                         </td>";
 
+            $deleteEl = "<td>
+                            <a href='" . URLROOT . "/Instructeur/deleteInstructor/" . $instructeur->Id . "'>
+                                <span class='material-symbols-outlined'>
+                                    delete
+                                </span>
+                            </a>
+                        </td>";
+
             $rows .= "<tr>
                         <td>$instructeur->Voornaam</td>
                         <td>$instructeur->Tussenvoegsel</td>
@@ -54,7 +62,8 @@ class Instructeur extends BaseController
                                 </span>
                             </a>
                         </td>   
-                        $verlofEl       
+                        $verlofEl   
+                        $deleteEl    
                       </tr>";
         }
 
@@ -208,5 +217,18 @@ class Instructeur extends BaseController
         $this->instructeurModel->deleteCarFromInstructeur($CarId, $PersonId);
 
         header("Location: " . URLROOT . "/instructeur/overzichtVoertuigen/$PersonId/Voertuig%20verwijderd");
+    }
+
+    public function deleteInstructor($Id)
+    {
+        $instructeur = $this->instructeurModel->getInstructeurById($Id)[0];
+
+        if ($instructeur->IsActief == 1) {
+            $this->instructeurModel->deleteCarsFromInstructeur($Id);
+            $this->instructeurModel->deleteInstructor($Id);
+            header("Location: " . URLROOT . "/Message/Message/Instructeur_verwijderd/Instructeur");
+        } else {
+            header("Location: " . URLROOT . "/Message/Message/Instructeur_is_niet_actief,_Verander_naar_actief/Instructeur");
+        }
     }
 }
